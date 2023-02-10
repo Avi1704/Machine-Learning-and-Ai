@@ -1,0 +1,19 @@
+import cv2
+import matplotlib.pyplot as plt
+# %matplotlib inline # use is using notebooks
+
+def detect_face(img_path, scale_factor:float=1.2, neighbors:int=9):
+img = cv2.imread(img_path)
+gray_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+clf = cv2.CascadeClassifier('/content/haarcascade_frontalface_default.xml')
+faces_rects = clf.detectMultiScale(gray_img, scaleFactor = scale_factor,
+minNeighbors = neighbors)
+print(f"[*] Total Faced Found: {len(faces_rects)}")
+for (x,y,w,h) in faces_rects:
+cv2.rectangle(img, (x, y), (x+w, y+h), (50, 255, 50), 10)
+plt.imshow(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
+plt.show()
+
+if __name__ == '__main__':
+img_path = r'/content/face-detection-test.jpg'
+detect_face(img_path)
